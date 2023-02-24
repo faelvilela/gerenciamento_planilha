@@ -9,26 +9,20 @@ import os, sys
 from mes import *
 from mover import copia
 
+
 def main():
 
     layout = [  [sg.Text('Preenchimento de planilha')],
                 [sg.Listbox(values=['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'], select_mode='extended', key='fac', size=(52, 6))],
                 [sg.Text('Dados:'), sg.InputText()],
-                [sg.Button('Start'), sg.Button('Gerar Mes'), sg.Button('Abrir planilha'), sg.Button('Exit')]  ]
+                [sg.Button('Start'), sg.Button('Gerar Mes'), sg.Button('Abrir planilha'), sg.Button('Print'), sg.Button('Exit')]  ]
 
     window = sg.Window('Preenchimento de planilha', layout)
     
     while True:
         global v
         event,v=window.read()
-        global strx
-        strx=""
-        #Setar strx como o valor que foi selecionado na listbox
-        try:
-            for val in v['fac']:
-                strx=strx+ " "+ val+","
-        except TypeError:
-            pass
+        
         #print(event, v)
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
@@ -41,12 +35,25 @@ def main():
             gerar_meses()
         if event == 'Abrir planilha':
             os.startfile('pandas_to_excel_no_index_header.xlsx')
+        if event == 'Print':
+            print('Desabilitado')
+            # prints()
+            # print2()
         elif event == '-FUNCTION COMPLETED-':
             sg.popup('Funcao completada')
     window.close()
 
 
 def preenchimento():
+
+    global strx
+    strx=""
+    #Setar strx como o valor que foi selecionado na listbox
+    try:
+        for val in v['fac']:
+            strx=strx+ " "+ val+","
+    except TypeError:
+        pass
 
     today = date.today()
     #Setando 'today' como o ultimo domingo  
@@ -124,7 +131,7 @@ def preenchimento():
         sheet['B12'] = saturday_2
 
     def escreve_terca():
-        sheet['B8'] = tuesday
+        #sheet['B8'] = tuesday
         sheet['C8']= ter_primeiro
         sheet['D8']= ter_segundo
         sheet['E8']= ter_terceiro
@@ -134,7 +141,7 @@ def preenchimento():
         sheet['O8']= ter_ultimo
 
     def escreve_quarta():
-        sheet['B9'] = wednesday
+        #sheet['B9'] = wednesday
         sheet['C9']= qua_primeiro
         sheet['D9']= qua_segundo
         sheet['E9']= qua_terceiro
@@ -144,7 +151,7 @@ def preenchimento():
         sheet['O9']= qua_ultimo
 
     def escreve_quinta():
-        sheet['B10'] = thursday
+        #sheet['B10'] = thursday
         sheet['C10']= qui_primeiro
         sheet['D10']= qui_segundo
         sheet['E10']= qui_terceiro
@@ -154,7 +161,7 @@ def preenchimento():
         sheet['O10']= qui_ultimo
 
     def escreve_sexta():
-        sheet['B11'] = friday
+        #sheet['B11'] = friday
         sheet['C11']= sex_primeiro
         sheet['D11']= sex_segundo
         sheet['E11']= sex_terceiro
@@ -164,7 +171,7 @@ def preenchimento():
         sheet['O11']= sex_ultimo
 
     def escreve_sabado():
-        sheet['B12'] = saturday
+        #sheet['B12'] = saturday
         sheet['C12']= sab_primeiro
         sheet['D12']= sab_segundo
         sheet['E12']= sab_terceiro
@@ -210,6 +217,9 @@ def preenchimento():
         os.startfile('months.xlsx')
 
     os.startfile('pandas_to_excel_no_index_header.xlsx')
+    time.sleep(5)
+    # prints()
+    # print2()
 
 if __name__ == "__main__":
     main()
